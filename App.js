@@ -47,56 +47,59 @@ function Sudoku() {
     }
       return true
   }
-
+    var [BoxRow, setBoxRow] = useState()
+    var [BoxCol, setBoxCol] = useState()
 
   // Nimmt board Argument für das Square und schaut ob schon vorhanden
-  function checkSquare(board, row, col, value){
-    //boxRow = Math.floor(row / 3) * 3;
-    //boxCol = Math.floor(col / 3) * 3;
+  function zahlMoeglich(row, col, zahl){
+    for(let i = 0; i<9;i++){
+      if(board [row][i] == zahl){
+        return false
+      }
+      if(board [i][col] == zahl){
+        return false
+      }
+    }
+    let startCol = Math.floor(col/3)*3;
+    let startRow = Math.floor(row/3)*3;
 
     for(var r = 0; r < 3; r++){
       for(var c = 0; c < 3; c++){
-      //  if(board[boxRow + r][boxCol + c] === value)
-          return false;
+        if(board[startRow + r][startCol + c] == zahl){
+          return false
+        }
       }
     }
-      return true
+    return true
   }
 
 
   // Lösung finden (Backtracking)
-  function solve(board){
-    let emptySpot = nextEmptySpot(board)
-    let row = emptySpot[0]
-    let col = emptySpot[1]
-
-    // Falls keine leeren Stellen mehr
-    if(row === -1){
-      return board
-    }
-
-    for(let num = 1; num <= 9; num++){
-      if(checkValue(board, row, col, num)){
-        board[row][col] = num
-        solve(board)
+  function solve(){
+    for(let i = 0; i < 9; i++){
+      for(let j = 0; i < 9; i++){
+        if(board[i][j] == ' '){
+          for(let x = 1; x<10; x++){
+            if(zahlMoeglich(i, j, x) == true){
+              board[i][j] = x
+              solve()
+              board[i][j] = ' '
+            }
+          }
+        }
       }
     }
-
-    if(nextEmptySpot(board)[0] !== -1)
-      board[row][col] = 0
-    
-
-    return board
-    
-
-
+    for(let i = 0; 0<9;i++){
+      console.log(board[i][0], board[i][1], board[i][2], board[i][3], board[i][4], board[i][5], board[i][6], board[i][7], board[i][8],)
+    }
   }
+
 
   // Alle check-Funktionen zusammenbringen
   function checkValue(board, row, col, value){
     if(checkRow(board, row, value) && 
       checkColumn(board, col, value) && 
-      checkSquare(board, row, col, value)){
+      zahlMoeglich(board, row, col, value)){
       return true
     }
     return false
@@ -121,7 +124,7 @@ function Sudoku() {
 
   return (
     <div id='div'>
-      <button>Go{solve}</button>
+      <button onClick={solve}>Go</button>
       {sudokuGrid.map(function(row, rowIndex) {
         return (
           <div key={rowIndex}>
@@ -132,6 +135,8 @@ function Sudoku() {
                   type="number"
                   value={cell}
                   onChange={function(e) {
+                    let zahl = parseInt(e.target.value)
+                    console.log("zahlMöglich: ", zahlMoeglich(rowIndex,colIndex,zahl))
                     updateCell(rowIndex, colIndex, parseInt(e.target.value, 10));
                   }}
                   min="1"
