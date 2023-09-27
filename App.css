@@ -1,0 +1,45 @@
+.div{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sudoku-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 1px; 
+}
+
+
+input {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+
+input[value] {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
+  border-bottom: 2px solid black;
+  border-right: 2px solid black;
+}
+
+
+input:focus {
+  background-color: #e6f7ff;
+  border: 1px solid #007bff;
+}
+
+
+.div{
+  border-right: 2px solid black; /* Dicke Linien nach jeder dritten Spalte */
+}
+
+.div{
+  border-bottom: 2px solid black; /* Dicke Linien nach jeder dritten Zeile */
+}
