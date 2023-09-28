@@ -60,8 +60,8 @@ function Sudoku() {
         return false
       }
     }
-    let startCol = Math.floor(col/3)*3;
-    let startRow = Math.floor(row/3)*3;
+    let startCol = Math.floor(col / 3)*3;
+    let startRow = Math.floor(row / 3)*3;
 
     for(var r = 0; r < 3; r++){
       for(var c = 0; c < 3; c++){
@@ -77,15 +77,16 @@ function Sudoku() {
   // Lösung finden (Backtracking)
   function solve(){
     for(let i = 0; i < 9; i++){
-      for(let j = 0; i < 9; i++){
+      for(let j = 0; j < 9; j++){
         if(board[i][j] == ' '){
           for(let x = 1; x<10; x++){
             if(zahlMoeglich(i, j, x) == true){
               board[i][j] = x
               solve()
               board[i][j] = ' '
-            }
+            }            
           }
+          return
         }
       }
     }
